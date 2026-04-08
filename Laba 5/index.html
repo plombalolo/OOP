@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна 5</title>
+    <style>
+        /* Додано flex-direction та gap для гарного відображення кількох карток */
+        body { font-family: sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 50px 20px; margin: 0; }
+        .card { background: white; padding: 20px 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        input { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #1a73e8; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #1557b0; }
+        .result { margin-top: 15px; padding: 15px; background: #e8f0fe; border-radius: 5px; display: none; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2 style="text-align: center; color: #1a73e8;">Завдання 1: Масив</h2>
+        
+        <label>Розмірність (k):</label>
+        <input type="number" id="kInput" placeholder="Наприклад: 5">
+
+        <label>Елементи (через пробіл):</label>
+        <input type="text" id="arrInput" placeholder="Наприклад: 10 -2 5 24 0">
+
+        <button onclick="runLogic1()">Виконати завдання 1</button>
+
+        <div id="output1" class="result"></div>
+    </div>
+
+    <div class="card">
+        <h2 style="text-align: center; color: #1a73e8;">Завдання 2: Назва числа</h2>
+        
+        <label>Введіть число (1-10):</label>
+        <input type="number" id="numInput" placeholder="Наприклад: 7" min="1" max="10">
+
+        <button onclick="runLogic2()">Дізнатися назву</button>
+
+        <div id="output2" class="result"></div>
+    </div>
+
+    <script>
+        // --- ЛОГІКА ЗАВДАННЯ 1 ---
+        function runLogic1() {
+            const k = parseInt(document.getElementById('kInput').value);
+            const textInput = document.getElementById('arrInput').value;
+            const out = document.getElementById('output1');
+
+            if (!k || !textInput) {
+                out.innerHTML = "<b style='color:red;'>Заповніть всі поля!</b>";
+                out.style.display = "block";
+                return;
+            }
+
+            let A = textInput.trim().split(/\s+/).map(Number);
+
+            if (A.length !== k) {
+                out.innerHTML = `<b style='color:red;'>Помилка: введено ${A.length} чисел замість ${k}.</b>`;
+                out.style.display = "block";
+                return;
+            }
+
+            // Додаткова перевірка, щоб користувач не ввів літери замість чисел
+            if (A.some(isNaN)) {
+                out.innerHTML = "<b style='color:red;'>Помилка: Вводьте тільки числа!</b>";
+                out.style.display = "block";
+                return;
+            }
+
+            const originalArray = [...A]; 
+            const minElement = Math.min(...A);
+
+            if (A.length > 1) {
+                [A[0], A[A.length - 1]] = [A[A.length - 1], A[0]];
+            }
+
+            out.innerHTML = `
+                <b>Початковий масив:</b> [${originalArray.join(", ")}]<br>
+                <b>Мінімальний елемент:</b> <span style="color:red;">${minElement}</span><br>
+                <b>Після перестановки:</b> [${A.join(", ")}]
+            `;
+            out.style.display = "block";
+        }
+
+        // --- ЛОГІКА ЗАВДАННЯ 2 ---
+        function runLogic2() {
+            const num = parseInt(document.getElementById('numInput').value);
+            const out = document.getElementById('output2');
+
+            // Наш словник назв
+            const numberNames = {
+                1: "Один", 2: "Два", 3: "Три", 4: "Чотири", 5: "П'ять",
+                6: "Шість", 7: "Сім", 8: "Вісім", 9: "Дев'ять", 10: "Десять"
+            };
+
+            // Перевірка на правильність введеного числа
+            if (isNaN(num) || num < 1 || num > 10) {
+                out.innerHTML = "<b style='color:red;'>Помилка: Введіть ціле число від 1 до 10!</b>";
+                out.style.display = "block";
+            } else {
+                out.innerHTML = `<b>Ви ввели:</b> <span style="color:#1a73e8; font-size:18px;">${numberNames[num]}</span>`;
+                out.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

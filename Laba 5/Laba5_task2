@@ -1,0 +1,29 @@
+// Підключення модуля для роботи з консоллю
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function getNumberName(numStr) {
+    const num = parseInt(numStr);
+
+    // Словник (об'єкт), де кожному числу відповідає його назва
+    const numberNames = {
+        1: "Один", 2: "Два", 3: "Три", 4: "Чотири", 5: "П'ять",
+        6: "Шість", 7: "Сім", 8: "Вісім", 9: "Дев'ять", 10: "Десять"
+    };
+
+    // Перевірка, чи ввели число і чи воно в межах 1..10
+    if (isNaN(num) || num < 1 || num > 10) {
+        console.log("❌ Помилка: Будь ласка, введіть число від 1 до 10.");
+    } else {
+        // Виводимо назву зі словника
+        console.log(`✅ Ви ввели: ${numberNames[num]}`);
+    }
+
+    rl.close(); // Закриваємо програму
+}
+
+// Запитуємо число у користувача
+rl.question('Введіть число від 1 до 10: ', getNumberName);

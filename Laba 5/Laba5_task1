@@ -1,0 +1,27 @@
+const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl = (q) => new Promise(resolve => readline.question(q, resolve));
+
+async function start() {
+    const k = await rl('Введіть k: ');
+    const input = await rl(`Введіть ${k} елементів: `);
+    
+    let A = input.split(/\s+/).map(Number);
+    console.log("До:", [...A]); // Копія для виводу
+
+    // 1. Знаходимо мінімальний елемент (через Math.min і spread-оператор)
+    console.log("Мінімальний:", Math.min(...A));
+
+    // 2. Міняємо місцями перший і останній (через деструктуризацію)
+    if (A.length > 1) {
+        [A[0], A[A.length - 1]] = [A[A.length - 1], A[0]];
+    }
+
+    console.log("Після:", A);
+    readline.close();
+}
+
+start();
